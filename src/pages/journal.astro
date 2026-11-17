@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Pic from '../components/Pic.astro';
+import { POSTS, BLOG_CATEGORIES } from '../data/site';
+import { IMG } from '../data/images';
+import { Search } from 'lucide-astro';
+---
+
+<BaseLayout
+  title="Journal Archive | Maya Bennett Photography"
+  description="Browse every story on the Maya Bennett journal — weddings, engagements, planning advice and personal notes."
+  current="/journal"
+>
+  <section class="mx-auto max-w-[1600px] px-5 pb-20 pt-10 sm:px-8 lg:pt-16">
+    <p class="eyebrow text-center text-body" data-reveal>Every Story</p>
+    <h1 class="mt-6 text-center font-display text-[13vw] font-medium leading-[0.92] tracking-tight text-ink sm:text-7xl lg:text-[88px]" data-reveal>
+      JOURNAL
+    </h1>
+
+    <!-- Filters -->
+    <div class="mt-12 flex flex-col items-center gap-6" data-journal-filters>
+      <div class="flex flex-wrap items-center justify-center gap-2" role="group" aria-label="Filter by category">
+        {
+          BLOG_CATEGORIES.map((c) => (
+            <button
+              type="button"
+              data-filter-chip={c}
+              aria-pressed={c === 'All' ? 'true' : 'false'}
+              class={`rounded-full border px-4 py-2 text-[12px] font-medium uppercase tracking-[0.18em] transition-colors ${c === 'All' ? 'border-ink bg-ink text-cream' : 'border-hairline bg-transparent text-ink hover:border-ink'}`}
+            >
+              {c}
+            </button>
+          ))
+        }
+      </div>
+      <label class="relative block w-full max-w-md">
+        <span class="sr-only">Search stories</span>
+        <Search size={18} aria-hidden="true" class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-body" />
+        <input
+          type="search"
+          data-journal-search
+          placeholder="Search stories…"
+          class="w-full rounded-full border border-hairline bg-transparent py-3 pl-11 pr-4 text-[15px] text-ink outline-none placeholder:text-body/70 focus:border-ink"
+        />
+      </label>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12" data-journal-grid>
+      {
+        POSTS.map((post, i) => (
+          <article
+            class="group"
+            data-journal-card
+            data-category={post.category}
+            data-search={`${post.title} ${post.excerpt} ${post.category}`.toLowerCase()}
+            data-reveal
+          >
+            <a href={`/journal/${post.slug}`} class="block overflow-hidden bg-panel" aria-label={post.title} tabindex="-1">
+              <div class="aspect-[4/3] overflow-hidden">
+                <Pic n={IMG.blogHeroes[i]} alt="" sizes="(max-width: 640px) 90vw, 30vw" cls="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              </div>
+            </a>
+            <div class="pt-5">
+              <p class="eyebrow text-body">
+                {post.category} <span class="mx-1 normal-case tracking-normal">·</span> {post.date}
+              </p>
+              <h2 class="mt-2 font-display text-[26px] leading-tight text-ink">
+                <a href={`/journal/${post.slug}`} class="transition-opacity hover:opacity-70">
+                  {post.title}
+                </a>
+              </h2>
+              <p class="mt-2 text-[15px] leading-relaxed text-body">{post.excerpt}</p>
+              <p class="mt-4">
+                <a href={`/journal/${post.slug}`} class="u-link text-[13px] font-medium uppercase tracking-[0.2em] text-ink">
+                  Read More
+                </a>
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+    <p data-journal-empty class="hidden py-16 text-center font-display text-2xl italic text-body" role="status">
+      No stories match that search yet — try a different word or category.
+    </p>
+    <p class="mt-14 text-center">
+      <a href="/blog-home" class="u-link text-[13px] font-medium uppercase tracking-[0.24em] text-ink">Back to the Blog</a>
+    </p>
+  </section>
+</BaseLayout>

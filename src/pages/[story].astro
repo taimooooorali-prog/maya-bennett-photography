@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Pic from '../components/Pic.astro';
+import { STORIES } from '../data/site';
+import { IMG } from '../data/images';
+
+export async function getStaticPaths() {
+  return STORIES.map((story, i) => ({ params: { story: story.slug }, props: { story, index: i } }));
+}
+
+const { story, index } = Astro.props;
+const gallery = IMG.storyGalleries[index];
+const heroN = IMG.storyHeroes[index];
+const LANDSCAPE = new Set([25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 43, 46, 47]);
+const aspectFor = (n: number) => (LANDSCAPE.has(n) ? 'aspect-[4/3]' : 'aspect-[3/4]');
+---
+
+<BaseLayout
+  title={`${story.couple} — ${story.venue} | Maya Bennett Photography`}
+  description={`${story.couple}'s ${story.season} wedding at ${story.venue}, ${story.location} — photographed by Maya Bennett.`}
+  current="/portfolio"
+>
+  <!-- ============ CENTRED TITLE ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 pb-12 pt-10 text-center sm:px-8 lg:pt-16">
+    <p class="eyebrow text-body" data-reveal>
+      {story.venue} <span class="mx-1 normal-case tracking-normal">·</span> {story.location} <span class="mx-1 normal-case tracking-normal">·</span> {story.season}
+    </p>
+    <h1 class="mt-6 font-display text-[13vw] font-medium leading-[0.92] tracking-tight text-ink sm:text-7xl lg:text-[88px]" data-reveal>
+      {story.couple.toUpperCase()}
+    </h1>
+  </section>
+
+  <!-- ============ INFO ROW ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 pb-14 sm:px-8">
+    <div class="grid gap-10 border-t border-hairline pt-10 md:grid-cols-2 lg:gap-16">
+      <div data-reveal>
+        <h2 class="eyebrow text-ink">About the Event</h2>
+        <p class="mt-4 max-w-lg text-[15px] leading-relaxed text-body">{story.about}</p>
+      </div>
+      <div data-reveal>
+        <h2 class="eyebrow text-ink">Vendors</h2>
+        <dl class="mt-4 space-y-2">
+          {
+            story.vendors.map((v) => (
+              <div class="flex items-baseline justify-between gap-6 border-b border-hairline/60 pb-2">
+                <dt class="text-[13px] uppercase tracking-[0.18em] text-body">{v.role}</dt>
+                <dd class="text-right font-display text-lg text-ink">{v.name}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FULL-BLEED B&W HERO ============ -->
+  <section aria-label="Wedding highlight photograph">
+    <div class="aspect-[16/9] w-full overflow-hidden">
+      <Pic n={heroN} alt={`${story.couple}'s wedding at ${story.venue}, black and white`} sizes="100vw" bw cls="h-full w-full object-cover" />
+    </div>
+  </section>
+
+  <!-- ============ OFFSET SCROLLING GALLERY ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24" aria-label="Wedding gallery">
+    <div class="grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-y-24">
+      {
+        gallery.map((n, i) => {
+          const pair = Math.floor(i / 2);
+          const isFirst = i % 2 === 0;
+          // Alternate: small-left/large-right, then large-left/small-right, with vertical offsets.
+          const cls =
+            pair % 2 === 0
+              ? isFirst
+                ? 'col-span-10 col-start-2 sm:col-span-4 sm:col-start-2'
+                : 'col-span-10 col-start-2 sm:col-span-5 sm:col-start-7 sm:translate-y-12'
+              : isFirst
+                ? 'col-span-10 col-start-2 sm:col-span-5 sm:col-start-2 sm:translate-y-8'
+                : 'col-span-10 col-start-2 sm:col-span-4 sm:col-start-8';
+          return (
+            <div class={`${cls} self-start overflow-hidden bg-panel`} data-reveal>
+              <div class={aspectFor(n)}>
+                <Pic n={n} alt="" sizes="(max-width: 640px) 90vw, 40vw" cls="h-full w-full object-cover" />
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIAL ============ -->
+  <section class="border-t border-hairline">
+    <div class="mx-auto max-w-3xl px-5 py-16 text-center sm:px-8 lg:py-20">
+      <figure data-reveal>
+        <blockquote>
+          <p class="font-display text-[26px] italic leading-snug text-ink sm:text-[32px]">
+            “{story.testimonial.quote}”
+          </p>
+        </blockquote>
+        <figcaption class="mt-6">
+          <span class="eyebrow text-body">Kind words from&nbsp;</span>
+          <span class="eyebrow text-ink">{story.testimonial.names.toUpperCase()}</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="border-t border-hairline">
+    <div class="mx-auto max-w-[1600px] px-5 py-16 text-center sm:px-8 lg:py-24">
+      <h2 class="font-display text-4xl font-medium leading-[1.02] tracking-tight text-ink sm:text-5xl" data-reveal>
+        Your story could<br />be <em class="font-normal">next</em>
+      </h2>
+      <p class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3" data-reveal>
+        <a href="/contact" class="u-link text-[13px] font-medium uppercase tracking-[0.24em] text-ink">Inquire Today</a>
+        <a href="/portfolio" class="u-link text-[13px] font-medium uppercase tracking-[0.24em] text-ink">Back to Index</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

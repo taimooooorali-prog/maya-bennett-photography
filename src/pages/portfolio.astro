@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Pic from '../components/Pic.astro';
+import { TESTIMONIALS } from '../data/site';
+import { IMG, pool, pool480 } from '../data/images';
+import { ArrowLeft, ArrowRight } from 'lucide-astro';
+
+const WED_CAPTIONS = [
+  'A quiet moment on the staircase',
+  'White roses by the window',
+  'Waiting in the doorway light',
+  'Beneath the floral arch',
+  'The first look',
+  'Confetti on the dance floor',
+  'Held close — grey plaid and lace',
+];
+const ED_CAPTIONS = [
+  'Veiled, between shadows',
+  'Eyes behind the veil',
+  'A halo of window light',
+  'The ballgown, white on white',
+  'Roses and dark grille light',
+  'Lace, tiara, and a tuxedo',
+  'Smiles under the palm fronds',
+];
+const WED = [...IMG.highlightsWeddings, 24, 10];
+const ED = [...IMG.highlightsEditorial, 11, 12];
+---
+
+<BaseLayout
+  title="Portfolio | Maya Bennett Photography"
+  description="Wedding and editorial photography by Maya Bennett — full celebrations told start to finish, plus fashion-led editorial stories."
+  current="/portfolio"
+>
+  <!-- ============ BLACK HERO + SWITCHER ============ -->
+  <section class="bg-black text-white" data-portfolio>
+    <div class="mx-auto max-w-[1600px] px-5 pb-14 pt-12 text-center sm:px-8 lg:pt-16">
+      <h1 class="font-display text-[15vw] font-medium leading-[0.9] tracking-tight sm:text-8xl lg:text-[120px]" data-reveal>
+        PORTFOLIO
+      </h1>
+      <div class="relative mx-auto mt-10 max-w-md" data-reveal>
+        <div class="aspect-[3/4] overflow-hidden bg-black">
+          <img
+            data-pf-hero
+            src={pool(IMG.portfolioHero)}
+            srcset={`${pool480(IMG.portfolioHero)} 480w, ${pool(IMG.portfolioHero)} 1200w`}
+            sizes="(max-width: 640px) 90vw, 420px"
+            alt="Bride and groom portrait"
+            width="1200"
+            height="900"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <div class="absolute inset-y-0 -left-44 z-10 hidden items-center lg:flex">
+          <button
+            type="button"
+            data-pf-switch="weddings"
+            data-pf-hero-src={pool(IMG.portfolioHero)}
+            data-pf-hero-srcset={`${pool480(IMG.portfolioHero)} 480w, ${pool(IMG.portfolioHero)} 1200w`}
+            data-pf-hero-alt="Bride and groom portrait"
+            aria-pressed="true"
+            class="px-2 py-1 font-display text-2xl italic text-white underline underline-offset-4 transition-opacity hover:opacity-80"
+          >
+            WEDDINGS
+          </button>
+        </div>
+        <div class="absolute inset-y-0 -right-44 z-10 hidden items-center lg:flex">
+          <button
+            type="button"
+            data-pf-switch="editorial"
+            data-pf-hero-src={pool(IMG.highlightsEditorial[0])}
+            data-pf-hero-srcset={`${pool480(IMG.highlightsEditorial[0])} 480w, ${pool(IMG.highlightsEditorial[0])} 1200w`}
+            data-pf-hero-alt="Editorial portrait in soft light"
+            aria-pressed="false"
+            class="px-2 py-1 font-display text-2xl italic text-white/60 transition-opacity hover:text-white hover:opacity-80"
+          >
+            EDITORIAL
+          </button>
+        </div>
+      </div>
+      <!-- Switcher row for smaller screens (flanking words need room) -->
+      <div class="mt-6 flex items-center justify-center gap-10 lg:hidden">
+        <button
+          type="button"
+          data-pf-switch="weddings"
+          data-pf-hero-src={pool(IMG.portfolioHero)}
+          data-pf-hero-srcset={`${pool480(IMG.portfolioHero)} 480w, ${pool(IMG.portfolioHero)} 1200w`}
+          data-pf-hero-alt="Bride and groom portrait"
+          aria-pressed="true"
+          class="font-display text-xl italic text-white underline underline-offset-4 transition-opacity hover:opacity-80"
+        >
+          WEDDINGS
+        </button>
+        <button
+          type="button"
+          data-pf-switch="editorial"
+          data-pf-hero-src={pool(IMG.highlightsEditorial[0])}
+          data-pf-hero-srcset={`${pool480(IMG.highlightsEditorial[0])} 480w, ${pool(IMG.highlightsEditorial[0])} 1200w`}
+          data-pf-hero-alt="Editorial portrait in soft light"
+          aria-pressed="false"
+          class="font-display text-xl italic text-white/60 transition-opacity hover:text-white hover:opacity-80"
+        >
+          EDITORIAL
+        </button>
+      </div>
+      <p class="mx-auto mt-12 max-w-xl text-[15px] leading-relaxed text-white/75" data-reveal>
+        Every celebration below is shown the way it unfolded — the quiet parts and the loud ones,
+        the planned moments and the ones nobody saw coming.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ HIGHLIGHTS CAROUSEL ============ -->
+  <section class="relative overflow-hidden bg-black text-white" aria-label="Highlights">
+    <div class="absolute inset-0" aria-hidden="true">
+      <Pic n={IMG.portfolioBg} alt="" sizes="100vw" bw cls="h-full w-full object-cover opacity-30" />
+    </div>
+    <div class="relative mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-20" data-highlights>
+      <div class="flex items-baseline justify-between gap-6">
+        <h2 class="font-display text-4xl font-medium tracking-tight sm:text-5xl" data-reveal>HIGHLIGHTS</h2>
+        <p class="eyebrow text-white/70" data-reveal>Selected frames</p>
+      </div>
+
+      {
+        [
+          { key: 'weddings', slides: WED, captions: WED_CAPTIONS },
+          { key: 'editorial', slides: ED, captions: ED_CAPTIONS },
+        ].map((set) => (
+          <div data-hl-set={set.key} class={set.key === 'editorial' ? 'hidden' : ''}>
+            <div class="mt-10 overflow-hidden" data-hl-viewport>
+              <div class="hl-track flex gap-4" data-hl-track>
+                {set.slides.map((n, i) => (
+                  <figure
+                    data-hl-slide={i}
+                    data-caption={set.captions[i]}
+                    class="hl-slide w-[calc((100%-4rem)/5)] min-w-0 shrink-0"
+                  >
+                    <div class="aspect-[3/4] overflow-hidden bg-black/40">
+                      <Pic n={n} alt={set.captions[i]} sizes="22vw" cls="h-full w-full object-cover" />
+                    </div>
+                  </figure>
+                ))}
+              </div>
+            </div>
+            <div class="mt-6 flex items-end justify-between gap-6">
+              <p data-hl-caption class="max-w-md font-display text-lg italic text-white/90">
+                {set.captions[2]}
+              </p>
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  data-hl-prev
+                  aria-label="Previous highlight"
+                  class="flex h-11 w-11 items-center justify-center border border-white/40 text-white transition-opacity hover:opacity-70"
+                >
+                  <ArrowLeft size={20} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  data-hl-next
+                  aria-label="Next highlight"
+                  class="flex h-11 w-11 items-center justify-center border border-white/40 text-white transition-opacity hover:opacity-70"
+                >
+                  <ArrowRight size={20} aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIAL ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24" aria-label="Kind words">
+    <figure class="text-center" data-reveal>
+      <blockquote>
+        <p class="mx-auto max-w-3xl font-display text-[26px] italic leading-snug text-ink sm:text-[32px]">
+          “{TESTIMONIALS[2].quote}”
+        </p>
+      </blockquote>
+      <figcaption class="mt-6">
+        <span class="eyebrow text-body">Kind words from&nbsp;</span>
+        <span class="eyebrow text-ink">{TESTIMONIALS[2].names.toUpperCase()}</span>
+      </figcaption>
+    </figure>
+    <p class="mt-10 text-center" data-reveal>
+      <a href="/contact" class="u-link u-link-serif text-xl text-ink">Inquire</a>
+    </p>
+  </section>
+</BaseLayout>

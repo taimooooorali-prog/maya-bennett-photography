@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Pic from '../components/Pic.astro';
+import TestimonialSlider from '../components/TestimonialSlider.astro';
+import { TESTIMONIALS, SERVICE_BANDS, IMPORTANT_POINTS } from '../data/site';
+import { IMG } from '../data/images';
+import { Plus } from 'lucide-astro';
+
+const VALUES = [
+  {
+    n: IMG.servicesValues[0],
+    title: 'Honest direction',
+    line: 'Gentle guidance when you need it, space when you do not — never stiff, never forced.',
+    alt: 'First-look moment, bride holding the groom’s hand around a corner',
+  },
+  {
+    n: IMG.servicesValues[1],
+    title: 'Film & digital',
+    line: 'Two cameras, two mediums: a complete digital record with film frames woven through.',
+    alt: 'Woman holding a vintage film camera up to her face',
+  },
+  {
+    n: IMG.servicesValues[2],
+    title: 'Heirloom delivery',
+    line: 'A considered gallery and fine-art albums designed to be held, not just scrolled.',
+    alt: 'Hands tying the ribbon bow on the lace back of a bridal gown',
+  },
+];
+---
+
+<BaseLayout
+  title="Services | Maya Bennett Photography"
+  description="Wedding, portrait and editorial photography services from Maya Bennett — full celebrations, portrait sessions from $1,000, and fashion-led editorial stories."
+  current="/services"
+>
+  <!-- ============ BLACK HERO ============ -->
+  <section class="bg-black text-white">
+    <div class="mx-auto max-w-[1600px] px-5 pb-10 pt-12 text-center sm:px-8 lg:pt-16">
+      <h1 class="font-display text-[12vw] font-medium leading-[0.92] tracking-tight sm:text-7xl lg:text-[88px]" data-reveal>
+        SERVICES <em class="font-normal">for</em><br />THE ROMANTICS
+      </h1>
+    </div>
+    <div class="aspect-[16/8] w-full overflow-hidden" data-reveal>
+      <Pic n={IMG.servicesHero} alt="First dance on an illuminated floral dance floor beneath a timber roof" sizes="100vw" cls="h-full w-full object-cover" />
+    </div>
+  </section>
+
+  <!-- ============ STATEMENT ============ -->
+  <section class="mx-auto max-w-3xl px-5 py-16 text-center sm:px-8 lg:py-24">
+    <h2 class="font-display text-4xl font-medium leading-[1.05] tracking-tight text-ink sm:text-5xl" data-reveal>
+      Everything is built around <em class="font-normal">your</em> story
+    </h2>
+    <p class="mt-6 text-[15px] leading-relaxed text-body" data-reveal>
+      There are no rigid packages here. Every celebration is quoted around what you actually need —
+      the hours, the coverage, the film, the album — so you pay for the day you are having, not
+      a bundle someone else designed.
+    </p>
+  </section>
+
+  <!-- ============ STAGGERED VALUE ROW ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 pb-16 sm:px-8 lg:pb-24" aria-label="What matters">
+    <div class="grid gap-10 sm:grid-cols-3 lg:gap-8">
+      {
+        VALUES.map((v, i) => (
+          <div class={i === 1 ? 'lg:translate-y-10' : i === 2 ? 'lg:translate-y-20' : ''} data-reveal>
+            <div class="aspect-[3/4] overflow-hidden bg-panel">
+              <Pic n={v.n} alt={v.alt} sizes="(max-width: 640px) 90vw, 30vw" cls="h-full w-full object-cover" />
+            </div>
+            <h3 class="mt-5 font-display text-[26px] text-ink">{v.title}</h3>
+            <p class="mt-2 text-[14px] leading-relaxed text-body">{v.line}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIAL SLIDER (CLICKABLE NAMES) ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24 lg:pt-32" aria-label="Kind words">
+    <div data-reveal>
+      <TestimonialSlider testimonials={TESTIMONIALS.slice(0, 4)} namesClickable id="services-ts" />
+    </div>
+  </section>
+
+  <!-- ============ ACCORDION BANDS ============ -->
+  <section aria-label="Service details">
+    {
+      SERVICE_BANDS.map((band, i) => {
+        const themeCls = band.theme === 'olive' ? 'bg-olive text-cream' : band.theme === 'black' ? 'bg-black text-white' : 'bg-editorial text-ink';
+        const subCls = band.theme === 'pale' ? 'text-body' : band.theme === 'olive' ? 'text-cream/85' : 'text-white/75';
+        const imgN = band.id === 'weddings' ? IMG.featured[0] : band.id === 'portraits' ? IMG.featured[1] : IMG.featured[2];
+        return (
+          <div class={themeCls} data-accordion-band>
+            <h2>
+              <button
+                type="button"
+                data-accordion-btn
+                aria-expanded={i === 0 ? 'true' : 'false'}
+                class="flex w-full items-center justify-between px-5 py-7 text-left sm:px-8 lg:py-9"
+              >
+                <span class="font-display text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl">{band.title}</span>
+                <span data-accordion-icon class={`transition-transform duration-300 ${i === 0 ? 'rotate-45' : ''}`}>
+                  <Plus size={30} aria-hidden="true" />
+                </span>
+              </button>
+            </h2>
+            <div class="panel-grid" data-accordion-panel data-open={i === 0 ? 'true' : 'false'}>
+              <div class="panel-inner">
+                <div class="grid items-center gap-8 px-5 pb-12 sm:px-8 lg:grid-cols-2 lg:gap-14">
+                  <div>
+                    <p class={`max-w-lg text-[15px] leading-relaxed ${subCls}`}>{band.body}</p>
+                    <ul class="mt-7 space-y-3">
+                      {band.links.map((l) => (
+                        <li>
+                          <a href={l.href} class="u-link text-[13px] font-medium uppercase tracking-[0.2em]">
+                            {l.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div class="aspect-[4/3] overflow-hidden">
+                    <Pic n={imgN} alt={`${band.title} photography by Maya Bennett`} sizes="(max-width: 1024px) 90vw, 45vw" cls="h-full w-full object-cover object-[50%_25%]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })
+    }
+  </section>
+
+  <!-- ============ THIS IS IMPORTANT ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24" aria-label="Important things to know">
+    <h2 class="font-display text-4xl font-medium tracking-tight text-ink sm:text-5xl" data-reveal>
+      THIS IS <em class="font-normal">important</em>
+    </h2>
+    <div class="mt-10">
+      {
+        IMPORTANT_POINTS.map((p, i) => (
+          <div class="border-t border-hairline last:border-b" data-important-row>
+            <button
+              type="button"
+              data-important-btn
+              aria-expanded="false"
+              class="flex w-full items-baseline gap-5 py-5 text-left sm:gap-8"
+            >
+              <span class="font-display text-xl text-body">0{i + 1}</span>
+              <span class="font-display text-2xl text-ink sm:text-3xl">{p.title}</span>
+            </button>
+            <div class="panel-grid" data-important-panel data-open="false">
+              <div class="panel-inner">
+                <p class="max-w-2xl pb-6 pl-10 pr-4 text-[15px] leading-relaxed text-body sm:pl-[4.5rem]">{p.text}</p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="border-t border-hairline">
+    <div class="mx-auto max-w-[1600px] px-5 py-16 text-center sm:px-8 lg:py-24">
+      <h2 class="font-display text-4xl font-medium leading-[1.02] tracking-tight text-ink sm:text-5xl lg:text-[56px]" data-reveal>
+        I would love to<br />hear <em class="font-normal">from you</em>
+      </h2>
+      <p class="mx-auto mt-6 max-w-md text-[15px] leading-relaxed text-body" data-reveal>
+        Tell me about your celebration — the place, the people, the feeling you are after.
+        I reply to every inquiry personally.
+      </p>
+      <p class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3" data-reveal>
+        <a href="/portfolio" class="u-link text-[13px] font-medium uppercase tracking-[0.2em] text-ink">View the Portfolio</a>
+        <a href="/contact" class="u-link u-link-serif text-xl text-ink">Get in Touch</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

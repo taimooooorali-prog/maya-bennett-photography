@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Pic from '../components/Pic.astro';
+import Monogram from '../components/Monogram.astro';
+import { TESTIMONIALS, EXPERIENCE_STEPS, EXPERIENCE_NOTES } from '../data/site';
+import { IMG } from '../data/images';
+---
+
+<BaseLayout
+  title="The Experience | Maya Bennett Photography"
+  description="What it is like to work with Maya Bennett — from the first conversation to albums and delivery. A calm, considered wedding photography experience."
+  current="/experience"
+>
+  <!-- ============ SPLIT HERO ============ -->
+  <section class="grid lg:grid-cols-2">
+    <div class="flex flex-col justify-center bg-olive px-6 py-16 text-cream sm:px-12 lg:min-h-[640px] lg:px-16">
+      <p class="eyebrow text-cream/80" data-reveal>The Experience</p>
+      <h1 class="mt-6 font-display text-[13vw] font-medium leading-[0.92] tracking-tight sm:text-7xl lg:text-[80px]" data-reveal>
+        CALM,<br /><em class="font-normal">considered,</em><br />COMPLETELY<br />YOURS
+      </h1>
+      <p class="mt-6 max-w-md text-[15px] leading-relaxed text-cream/85" data-reveal>
+        A wedding day should feel like a celebration, not a production schedule. Here is how
+        we keep it that way — from our first call to the album on your shelf.
+      </p>
+    </div>
+    <div class="relative min-h-[420px] lg:min-h-[640px]">
+      <Pic n={IMG.experienceHero} alt="Bride and guests dancing at night under string lights" sizes="(max-width: 1024px) 100vw, 50vw" eager cls="absolute inset-0 h-full w-full object-cover" />
+    </div>
+  </section>
+
+  <!-- ============ SUB-LINE + CENTRED PARAGRAPH ============ -->
+  <section class="mx-auto max-w-3xl px-5 py-16 text-center sm:px-8 lg:py-24">
+    <p class="font-display text-2xl italic text-ink sm:text-3xl" data-reveal>
+      You enjoy the day. I take care of remembering it.
+    </p>
+    <p class="mt-6 text-[15px] leading-relaxed text-body" data-reveal>
+      Most of my couples tell me the same thing afterwards: they barely noticed the camera, and
+      yet somehow every moment is there. That is not an accident. It is a way of working built
+      over ten years — preparation before the day, presence during it, and care afterwards.
+    </p>
+  </section>
+
+  <!-- ============ B&W PHOTO / TEXT SPLIT ============ -->
+  <section class="mx-auto grid max-w-[1600px] items-center gap-10 px-5 pb-16 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:pb-24">
+    <div class="relative" data-reveal>
+      <div class="aspect-[4/5] overflow-hidden bg-panel">
+        <Pic n={IMG.experienceBw} alt="Close bridal portrait under a sheer veil, black and white" sizes="(max-width: 1024px) 90vw, 45vw" bw cls="h-full w-full object-cover" />
+      </div>
+      <span class="absolute -right-4 top-8 hidden lg:block">
+        <Monogram size="md" cls="bg-cream text-ink" />
+      </span>
+    </div>
+    <div data-reveal>
+      <h2 class="font-display text-4xl font-medium leading-[1.02] tracking-tight text-ink sm:text-5xl">
+        Present, not<br />in the way
+      </h2>
+      <p class="mt-6 max-w-md text-[15px] leading-relaxed text-body">
+        I photograph weddings the way I would want mine photographed: with attention, not
+        interruption. Family groups are organised kindly and quickly. Portraits take minutes,
+        not hours. And the in-between moments — the ones you will actually miss when the day
+        is over — are watched for, patiently, all day long.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ FROM THE HEART ============ -->
+  <section class="border-y border-hairline">
+    <div class="mx-auto max-w-3xl px-5 py-16 text-center sm:px-8 lg:py-20">
+      <p class="eyebrow text-body" data-reveal>From the Heart</p>
+      <figure class="mt-6" data-reveal>
+        <blockquote>
+          <p class="font-display text-[26px] italic leading-snug text-ink sm:text-[32px]">
+            “{TESTIMONIALS[7].quote}”
+          </p>
+        </blockquote>
+        <figcaption class="mt-6">
+          <span class="eyebrow text-body">Kind words from&nbsp;</span>
+          <span class="eyebrow text-ink">{TESTIMONIALS[7].names.toUpperCase()}</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS: 2 NUMBERED ALTERNATING ROWS ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24" aria-label="How it works">
+    {
+      EXPERIENCE_STEPS.map((step, i) => (
+        <div class={`grid items-center gap-10 py-8 lg:grid-cols-2 lg:gap-16 ${i > 0 ? 'border-t border-hairline' : ''}`}>
+          <div class={i % 2 === 1 ? 'lg:order-2' : ''} data-reveal>
+            <p class="font-display text-lg text-body">{step.n}</p>
+            <h2 class="mt-3 font-display text-4xl font-medium leading-[1.02] tracking-tight text-ink sm:text-5xl">{step.title}</h2>
+            <p class="mt-5 max-w-md text-[15px] leading-relaxed text-body">{step.text}</p>
+          </div>
+          <div class={i % 2 === 1 ? 'lg:order-1' : ''} data-reveal>
+            <div class="aspect-[4/3] overflow-hidden bg-panel">
+              <Pic
+                n={i === 0 ? IMG.experienceStep1 : IMG.experienceStep2}
+                alt={i === 0 ? 'Bride and groom dancing in a meadow under a pale sky' : 'Bride and groom at a white floral arch under a bright sky'}
+                sizes="(max-width: 1024px) 90vw, 45vw"
+                cls="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </section>
+
+  <!-- ============ FOUR PROCESS PARAGRAPHS ============ -->
+  <section class="border-t border-hairline">
+    <div class="mx-auto grid max-w-[1600px] gap-10 px-5 py-16 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:py-20">
+      {
+        EXPERIENCE_NOTES.map((n) => (
+          <div data-reveal>
+            <h3 class="font-display text-2xl text-ink">{n.title}</h3>
+            <p class="mt-3 text-[14px] leading-relaxed text-body">{n.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============ YOU SHOULD KNOW ============ -->
+  <section class="bg-panel">
+    <div class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24">
+      <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div data-reveal>
+          <p class="eyebrow text-body">You Should Know</p>
+          <h2 class="mt-4 font-display text-4xl font-medium leading-[1.02] tracking-tight text-ink sm:text-5xl">
+            A few honest<br />answers, first
+          </h2>
+          <p class="mt-6 max-w-md text-[15px] leading-relaxed text-body">
+            Do I travel? Yes — gladly. Do I shoot film? Always, alongside digital. Will I help
+            with the timeline? That is one of my favourite parts. Everything else — coverage
+            hours, albums, associates, and what your day will actually cost — we work out
+            together, on a call, before anything is decided.
+          </p>
+          <p class="mt-8">
+            <a href="/contact" class="u-link u-link-serif text-xl text-ink">Inquire</a>
+          </p>
+        </div>
+        <figure class="flex flex-col justify-center border-t border-hairline pt-8 lg:border-l lg:border-t-0 lg:pl-14 lg:pt-0" data-reveal>
+          <blockquote>
+            <p class="font-display text-[26px] italic leading-snug text-ink sm:text-3xl">
+              “{TESTIMONIALS[3].quote}”
+            </p>
+          </blockquote>
+          <figcaption class="mt-6">
+            <span class="eyebrow text-body">Kind words from&nbsp;</span>
+            <span class="eyebrow text-ink">{TESTIMONIALS[3].names.toUpperCase()}</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

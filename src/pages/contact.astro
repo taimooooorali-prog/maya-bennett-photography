@@ -1,0 +1,241 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Pic from '../components/Pic.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { POSTS, PRESS } from '../data/site';
+import { IMG } from '../data/images';
+import { ArrowDown } from 'lucide-astro';
+
+const SERVICES = [
+  'Wedding Weekend Coverage',
+  'Wedding Day Photography',
+  'Super 8 Video',
+  'Wedding Day Content Creation',
+  'Elopement',
+  'Engagement',
+  'Branding',
+  'Other',
+];
+---
+
+<BaseLayout
+  title="Inquire | Maya Bennett Photography"
+  description="Tell Maya Bennett about your celebration — wedding date, venue, and what drew you to her work. Custom quotes for every wedding."
+  current="/contact"
+>
+  <div class="grid lg:grid-cols-2">
+    <!-- ============ LEFT: FADED B&W PHOTO (sticky on desktop) ============ -->
+    <div class="relative min-h-[420px] overflow-hidden lg:sticky lg:top-0 lg:h-screen lg:min-h-0">
+      <Pic
+        n={IMG.contactHero}
+        alt="Bride holding a bouquet under a large floral arch, black and white"
+        sizes="(max-width: 1024px) 100vw, 50vw"
+        eager
+        bw
+        cls="absolute inset-0 h-full w-full object-cover opacity-60"
+      />
+      <div class="absolute inset-0 bg-cream/35" aria-hidden="true"></div>
+      <div class="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+        <p class="font-display text-2xl italic leading-relaxed text-ink sm:text-3xl" data-reveal>
+          As seen in
+        </p>
+        <ul class="mt-4 space-y-2">
+          {
+            PRESS.map((p) => (
+              <li class="font-display text-xl tracking-[0.14em] text-ink/80 sm:text-2xl">{p}</li>
+            ))
+          }
+        </ul>
+        <p class="mt-8 font-display text-3xl italic text-ink sm:text-4xl" data-reveal>— Maya</p>
+      </div>
+    </div>
+
+    <!-- ============ RIGHT: PALE PANEL + FORM ============ -->
+    <div class="bg-editorial">
+      <div class="px-6 pb-16 pt-12 sm:px-10 lg:px-14 lg:pt-16">
+        <div class="relative" data-reveal>
+          <h1 class="font-display text-[15vw] font-medium leading-[0.92] tracking-tight text-ink sm:text-7xl lg:text-[76px]">
+            To: <em class="font-normal">Maya</em>
+          </h1>
+          <!-- Rotating badge -->
+          <div class="pointer-events-none absolute -top-2 right-0 hidden h-28 w-28 sm:block" aria-hidden="true">
+            <svg viewBox="0 0 100 100" class="spin-slow h-full w-full text-ink">
+              <defs>
+                <path id="badge-circle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" fill="none" />
+              </defs>
+              <text font-size="10.5" letter-spacing="2.5" fill="currentColor" font-family="Inter, system-ui, sans-serif" font-weight="500">
+                <textPath href="#badge-circle">WORK WITH US • WORK WITH US •</textPath>
+              </text>
+            </svg>
+            <span class="absolute inset-0 flex items-center justify-center">
+              <ArrowDown size={20} aria-hidden="true" />
+            </span>
+          </div>
+        </div>
+        <p class="mt-6 max-w-md text-[15px] leading-relaxed text-body" data-reveal>
+          Tell me everything — the date, the place, the people, and the feeling you are dreaming
+          of. I read every inquiry myself and reply to each one personally.
+        </p>
+
+        <!-- ============ INQUIRY FORM ============ -->
+        <form id="inquiry-form" class="mt-12 space-y-9" novalidate data-reveal>
+          <!-- 1. Your Name -->
+          <div>
+            <label class="field-label" for="f-name">Your Name *</label>
+            <input class="field-input mt-2" type="text" id="f-name" name="Your Name" required autocomplete="name" />
+          </div>
+
+          <!-- 2. Partner's Name -->
+          <div>
+            <label class="field-label" for="f-partner">Partner’s Name</label>
+            <input class="field-input mt-2" type="text" id="f-partner" name="Partner's Name" autocomplete="off" />
+          </div>
+
+          <!-- 3. Email -->
+          <div>
+            <label class="field-label" for="f-email">Email *</label>
+            <input class="field-input mt-2" type="email" id="f-email" name="Email" required autocomplete="email" />
+          </div>
+
+          <!-- 4. Phone -->
+          <div>
+            <label class="field-label" for="f-phone">Phone *</label>
+            <input class="field-input mt-2" type="tel" id="f-phone" name="Phone" required autocomplete="tel" />
+          </div>
+
+          <!-- 5. Instagram handles -->
+          <div>
+            <label class="field-label" for="f-instagram">Instagram handles</label>
+            <input class="field-input mt-2" type="text" id="f-instagram" name="Instagram handles" placeholder="@you & @yourpartner" autocomplete="off" />
+          </div>
+
+          <!-- 6. Services checkboxes -->
+          <fieldset data-required-group="services">
+            <legend class="field-label">Services you’re interested in? *</legend>
+            <div class="mt-3 grid gap-2.5 sm:grid-cols-2">
+              {
+                SERVICES.map((s, i) => (
+                  <label class="flex cursor-pointer items-start gap-3 text-[14px] text-ink">
+                    <input class="check-square" type="checkbox" name="Services interested in" value={s} />
+                    <span>{s}</span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <!-- 7. Desired date -->
+          <div>
+            <label class="field-label" for="f-date">Desired date *</label>
+            <input class="field-input mt-2" type="date" id="f-date" name="Desired date" required />
+          </div>
+
+          <!-- 8. Location & Venue -->
+          <div>
+            <label class="field-label" for="f-location">Location &amp; Venue *</label>
+            <input class="field-input mt-2" type="text" id="f-location" name="Location & Venue" placeholder="City, State, Country" required autocomplete="off" />
+          </div>
+
+          <!-- 9. Budget -->
+          <div>
+            <label class="field-label" for="f-budget">Photography Budget Range *</label>
+            <textarea class="field-box mt-2" id="f-budget" name="Photography Budget Range" rows="3" required placeholder="A range is perfect — even a rough one helps."></textarea>
+            <p class="mt-2 text-[13px] leading-relaxed text-body">
+              As a guide, full wedding coverage typically falls between $8,000 and $12,000, with
+              associate photographer options available at a lower investment. Every wedding is
+              quoted individually around your day.
+            </p>
+          </div>
+
+          <!-- 10. Associate radio -->
+          <fieldset data-required-group="associate">
+            <legend class="field-label">Open to associate photographer options? *</legend>
+            <div class="mt-3 flex flex-wrap gap-x-8 gap-y-2.5">
+              <label class="flex cursor-pointer items-start gap-3 text-[14px] text-ink">
+                <input class="radio-round" type="radio" name="Open to associate options" value="Yes" />
+                <span>Yes</span>
+              </label>
+              <label class="flex cursor-pointer items-start gap-3 text-[14px] text-ink">
+                <input class="radio-round" type="radio" name="Open to associate options" value="No, lead photographer only" />
+                <span>No, lead photographer only</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- 11. Wedding Planner -->
+          <div>
+            <label class="field-label" for="f-planner">Wedding Planner *</label>
+            <input class="field-input mt-2" type="text" id="f-planner" name="Wedding Planner" placeholder="Planner’s name, or “not yet”" required autocomplete="off" />
+          </div>
+
+          <!-- 12. How did you find me -->
+          <div>
+            <label class="field-label" for="f-found">How did you find me? *</label>
+            <select class="field-input mt-2" id="f-found" name="How did you find me" required>
+              <option value="" selected>Choose one…</option>
+              <option>Instagram</option>
+              <option>TikTok</option>
+              <option>Google Search</option>
+              <option>A Friend’s Recommendation</option>
+              <option>Wedding Planner</option>
+              <option>Press Feature</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <!-- 13. Booking stage -->
+          <div>
+            <label class="field-label" for="f-stage">What stage of booking are you at?</label>
+            <select class="field-input mt-2" id="f-stage" name="Booking stage">
+              <option value="" selected>Choose one…</option>
+              <option>Just starting to look</option>
+              <option>Comparing photographers</option>
+              <option>Date already set</option>
+              <option>Ready to book</option>
+            </select>
+          </div>
+
+          <!-- 14. What drew you -->
+          <div>
+            <label class="field-label" for="f-drew">What drew you to my work? *</label>
+            <textarea class="field-box mt-2" id="f-drew" name="What drew you to my work" rows="3" required></textarea>
+          </div>
+
+          <!-- 15. Plans -->
+          <div>
+            <label class="field-label" for="f-plans">Tell me about your plans!</label>
+            <textarea class="field-box mt-2" id="f-plans" name="Plans" rows="4" placeholder="The venue, the vibe, the guest count, the must-have moments…"></textarea>
+          </div>
+
+          <!-- Consent + SEND -->
+          <div class="border-t border-hairline pt-6">
+            <p class="text-[13px] leading-relaxed text-body">
+              By sending this form you agree that Maya Bennett Photography may contact you by
+              email, phone, or text about your inquiry. Your details are never shared.
+            </p>
+            <button
+              type="submit"
+              id="send-btn"
+              disabled
+              class="mt-6 text-[15px] font-medium uppercase tracking-[0.3em] text-ink transition-opacity disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              Send
+            </button>
+            <p id="form-status" class="mt-4 hidden text-[14px] text-body" role="status"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MORE TO EXPLORE ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24" aria-label="More to explore">
+    <h2 class="text-center font-display text-4xl font-medium tracking-tight text-ink sm:text-5xl" data-reveal>
+      More to <em class="font-normal">Explore</em>
+    </h2>
+    <div class="mt-10 grid gap-10 sm:grid-cols-2 lg:gap-14">
+      <BlogCard post={POSTS[0]} imgN={IMG.blogCard1} />
+      <BlogCard post={POSTS[1]} imgN={IMG.blogCard2} />
+    </div>
+  </section>
+</BaseLayout>

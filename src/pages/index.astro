@@ -1,0 +1,293 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Pic from '../components/Pic.astro';
+import Monogram from '../components/Monogram.astro';
+import Marquee from '../components/Marquee.astro';
+import CrossfadeCarousel from '../components/CrossfadeCarousel.astro';
+import TestimonialSlider from '../components/TestimonialSlider.astro';
+import FeaturedProjects from '../components/FeaturedProjects.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { TESTIMONIALS, POSTS, PRESS } from '../data/site';
+import { IMG, pool, pool480 } from '../data/images';
+
+const heroPreload = [pool(IMG.heroLeft), pool(IMG.heroRight)];
+---
+
+<BaseLayout
+  title="Maya Bennett Photography | San Diego Wedding Photographer"
+  description="Sun-soaked, honest wedding photography from San Diego to wherever your story takes us. Editorial and documentary weddings, film coverage, portraits and albums."
+  current="/"
+  preload={heroPreload}
+>
+  <!-- ============ 1. SPLIT HERO ============ -->
+  <section class="relative" aria-label="Featured wedding photography">
+    <div class="grid h-[78svh] min-h-[520px] grid-cols-2 lg:h-[86svh]">
+      <div class="relative overflow-hidden">
+        <Pic
+          n={IMG.heroLeft}
+          alt="A newly married couple outdoors beneath a pale sky"
+          sizes="50vw"
+          eager
+          fetchPriority="high"
+          cls="h-full w-full object-cover"
+        />
+      </div>
+      <div class="relative overflow-hidden">
+        <Pic
+          n={IMG.heroRight}
+          alt="Bride in a veil seated by a doorway, black and white"
+          sizes="50vw"
+          eager
+          fetchPriority="high"
+          bw
+          cls="h-full w-full object-cover"
+        />
+      </div>
+    </div>
+    <!-- Load-in veil -->
+    <div class="hero-veil absolute inset-0 z-20 bg-cream" aria-hidden="true"></div>
+    <!-- Centred content over the seam -->
+    <div class="hero-fade absolute inset-0 z-10 flex flex-col items-center justify-center px-5 text-center text-white">
+      <span class="flex h-16 w-[52px] items-center justify-center rounded-[50%] border border-white font-display text-lg leading-none sm:h-[76px] sm:w-[60px] sm:text-xl">MB</span>
+      <p class="mt-6 font-display text-2xl italic leading-none sm:text-3xl">this is</p>
+      <h1 class="mt-2 font-display text-[13vw] font-medium leading-[0.92] tracking-tight sm:text-7xl lg:text-[92px]">
+        THE GOOD<br />PART
+      </h1>
+      <p class="mt-5 max-w-md text-[13px] leading-relaxed tracking-wide text-white/90 sm:text-sm">
+        Wedding photographs that hold the feeling,<br class="hidden sm:block" /> not just the moment.
+      </p>
+      <p class="mt-6">
+        <a href="/portfolio" class="u-link font-display text-lg italic text-white sm:text-xl">View the Portfolio</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 2. INTRO SPLIT ============ -->
+  <section class="mx-auto grid max-w-[1600px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-24">
+    <div data-reveal>
+      <Monogram size="md" cls="text-ink" />
+      <h2 class="mt-8 font-display text-4xl font-medium leading-[1.02] tracking-tight text-ink sm:text-5xl lg:text-[56px]">
+        Photographs that hold<br />the <em class="font-normal">feeling,</em><br />not just the moment.
+      </h2>
+      <p class="mt-6 max-w-md text-[15px] leading-relaxed text-body">
+        I am Maya — a San Diego wedding photographer who believes the best photographs are the honest
+        ones. The shaky breath before the vows, the laugh nobody planned, the light slipping away
+        while everyone is dancing. I am there for all of it, camera in hand and heart fully in.
+      </p>
+      <p class="mt-7">
+        <a href="/experience" class="u-link text-[13px] font-medium uppercase tracking-[0.2em] text-ink">The Experience</a>
+      </p>
+    </div>
+    <div data-reveal>
+      <CrossfadeCarousel
+        id="intro"
+        slides={IMG.introCarousel.map((n, i) => ({ n, alt: `Wedding moment ${i + 1}` }))}
+        sizes="(max-width: 1024px) 90vw, 45vw"
+        cls="aspect-[3/4] w-full"
+      />
+    </div>
+  </section>
+
+  <!-- ============ 3. CATEGORY STRIP ============ -->
+  <section class="border-y border-hairline py-8 lg:py-10" aria-label="Photography categories">
+    <p class="flex flex-wrap items-baseline justify-center gap-x-8 gap-y-2 px-5 text-center sm:gap-x-14" data-reveal>
+      <span class="font-display text-3xl text-ink sm:text-4xl lg:text-5xl">WEDDINGS</span>
+      <span class="font-display text-3xl text-ink sm:text-4xl lg:text-5xl">PORTRAITS</span>
+      <span class="font-display text-3xl text-ink sm:text-4xl lg:text-5xl">EDITORIAL</span>
+      <span class="font-display text-3xl text-ink sm:text-4xl lg:text-5xl">BRANDS</span>
+    </p>
+  </section>
+
+  <!-- ============ 4. ABOUT TEASER ============ -->
+  <section class="mx-auto grid max-w-[1600px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:py-24">
+    <div class="relative" data-reveal>
+      <div class="aspect-[4/5] overflow-hidden bg-panel">
+        <Pic n={IMG.aboutTeaser} alt="Maya Bennett holding her camera at a wedding" sizes="(max-width: 1024px) 90vw, 45vw" cls="h-full w-full object-cover" />
+      </div>
+      <span class="absolute -right-5 top-1/2 hidden -translate-y-1/2 lg:block">
+        <Monogram size="lg" cls="bg-cream text-ink" />
+      </span>
+    </div>
+    <div data-reveal>
+      <h2 class="font-display text-4xl font-medium leading-[1.02] tracking-tight text-ink sm:text-5xl lg:text-[56px]">
+        Maya Bennett
+      </h2>
+      <p class="mt-6 max-w-md text-[15px] leading-relaxed text-body">
+        Ten years, three hundred celebrations, and one belief that has never changed: your wedding
+        photographs should feel like your wedding did. I shoot digital and film, direct gently when
+        it helps, and disappear when it does not — so the day stays yours and the pictures stay true.
+      </p>
+      <p class="mt-7">
+        <a href="/about" class="u-link text-[13px] font-medium uppercase tracking-[0.2em] text-ink">Learn More</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 5. OFFERINGS: 3 TALL B&W CARDS ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 pb-16 sm:px-8 lg:pb-24" aria-label="Offerings">
+    <div class="grid gap-4 sm:grid-cols-3">
+      {
+        [
+          { n: IMG.offer1, num: '01', title: 'Services', href: '/services', alt: 'Bride and groom embracing under warm hanging lights, black and white' },
+          { n: IMG.offer2, num: '02', title: 'Portfolio', href: '/portfolio', alt: 'Bride under a large floral arch, black and white' },
+          { n: IMG.offer3, num: '03', title: 'About', href: '/about', alt: 'Close-up of a bride under a veil, black and white' },
+        ].map((c) => (
+          <a href={c.href} class="group relative block aspect-[3/4] overflow-hidden bg-panel" data-reveal aria-label={c.title}>
+            <Pic n={c.n} alt={c.alt} sizes="(max-width: 640px) 90vw, 30vw" bw cls="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
+            <span class="absolute bottom-5 left-5 font-display text-lg text-white">{c.num}</span>
+            <span class="absolute bottom-5 left-1/2 -translate-x-1/2 font-display text-3xl text-white sm:text-4xl">{c.title}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============ 6. OLIVE "BEHIND THE LENS" BAND ============ -->
+  <section class="bg-olive text-cream">
+    <div class="mx-auto grid max-w-[1600px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:py-24">
+      <div class="aspect-[4/3] overflow-hidden" data-reveal>
+        <Pic n={IMG.behindLens} alt="Groom laughing while embracing the bride, greenery behind" sizes="(max-width: 1024px) 90vw, 45vw" cls="h-full w-full object-cover object-[50%_25%]" />
+      </div>
+      <div data-reveal>
+        <p class="eyebrow text-cream/80">Behind the Lens</p>
+        <h2 class="mt-4 font-display text-4xl font-medium leading-[1.02] tracking-tight sm:text-5xl lg:text-[56px]">
+          The person behind<br />the photographs
+        </h2>
+        <p class="mt-6 max-w-md text-[15px] leading-relaxed text-cream/85">
+          I grew up on the California coast with a film camera in my hands and salt in my hair.
+          Nothing has really changed — I still chase the same light, still tear up at vows, and
+          still believe a wedding is the best story anyone will ever ask me to tell.
+        </p>
+        <p class="mt-7">
+          <a href="/about" class="u-link text-[13px] font-medium uppercase tracking-[0.2em] text-cream">More About Maya</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. THE APPROACH ============ -->
+  <section class="relative overflow-hidden py-20 lg:py-28" aria-label="The approach">
+    <div class="relative mx-auto max-w-[1600px] px-5 sm:px-8">
+      <!-- Flanking photos (desktop absolute, mobile stacked) -->
+      <div class="mb-10 grid grid-cols-2 gap-4 lg:contents" data-reveal>
+        <div class="arch mx-auto w-40 overflow-hidden sm:w-52 lg:absolute lg:bottom-16 lg:left-8 lg:z-0 lg:w-[210px] xl:left-16">
+          <div class="aspect-[3/4]">
+            <Pic n={IMG.approachArch} alt="Bride and groom posing against a white panelled wall" sizes="220px" cls="h-full w-full object-cover" />
+          </div>
+        </div>
+        <div class="mx-auto w-40 overflow-hidden sm:w-52 lg:absolute lg:right-8 lg:top-10 lg:z-0 lg:w-[230px] xl:right-16">
+          <div class="aspect-[4/3]">
+            <Pic n={IMG.approachBw} alt="Bride and groom dancing as confetti falls, black and white" sizes="240px" bw cls="h-full w-full object-cover" />
+          </div>
+        </div>
+      </div>
+      <div class="relative z-10 text-center">
+        <p class="eyebrow text-body" data-reveal>The Approach</p>
+        <h2 class="mx-auto mt-6 max-w-4xl font-display text-[34px] font-medium leading-[1.08] tracking-tight sm:text-5xl lg:text-[64px]">
+          <span class="scrub-line block" data-scrub-line>I photograph the in-between.</span>
+          <span class="scrub-line block" data-scrub-line>The breath before the vows.</span>
+          <span class="scrub-line block" data-scrub-line>The laugh you did not plan.</span>
+          <span class="scrub-line block" data-scrub-line>The light you did not notice.</span>
+        </h2>
+        <p class="mx-auto mt-8 max-w-xl text-[15px] leading-relaxed text-body" data-reveal>
+          No stiff poses, no endless shot lists. I watch, I wait, and I step in only when a moment
+          needs a little help — so your gallery feels like the day, not a performance of it.
+        </p>
+      </div>
+      <div class="mt-16 lg:mt-20" data-reveal>
+        <TestimonialSlider testimonials={TESTIMONIALS.slice(0, 4)} id="approach-ts" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 8. EXPLORE WEDDINGS (BLACK BAND) ============ -->
+  <section class="relative overflow-hidden bg-black text-white" aria-label="Explore weddings">
+    <div class="mx-auto max-w-[1600px] px-5 pb-10 pt-16 sm:px-8 lg:pt-24">
+      <h2 class="font-display text-[13vw] font-medium leading-[0.9] tracking-tight sm:text-7xl lg:text-[96px]" data-reveal>
+        EXPLORE<br />WEDDINGS
+      </h2>
+      <p class="mt-6 max-w-md text-[15px] leading-relaxed text-white/75" data-reveal>
+        Real celebrations, told start to finish — every one different, every one deeply personal.
+      </p>
+      <p class="mt-7" data-reveal>
+        <a href="/portfolio" class="u-link text-[13px] font-medium uppercase tracking-[0.2em] text-white">View the Portfolio</a>
+      </p>
+    </div>
+    <div class="overflow-hidden pb-12 pt-4" aria-hidden="true">
+      <div class="drift-track gap-3 pr-3">
+        {
+          [...IMG.exploreStrip, ...IMG.exploreStrip].map((n, i) => (
+            <div class="h-24 w-36 shrink-0 overflow-hidden sm:h-28 sm:w-44">
+              <img src={pool480(n)} alt="" width="480" height="360" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 9. FEATURED PROJECTS ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24" aria-label="Featured projects">
+    <FeaturedProjects />
+  </section>
+
+  <!-- ============ 10. PRESS BAND ============ -->
+  <section class="border-y border-hairline py-10" aria-label="Featured in">
+    <p class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 px-5 sm:gap-x-16" data-reveal>
+      {
+        PRESS.map((p) => (
+          <span class="font-display text-xl tracking-[0.14em] text-stone2 sm:text-2xl">{p}</span>
+        ))
+      }
+    </p>
+  </section>
+
+  <!-- ============ 11. MORE TO EXPLORE ============ -->
+  <section class="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:py-24" aria-label="More to explore">
+    <h2 class="text-center font-display text-4xl font-medium tracking-tight text-ink sm:text-5xl" data-reveal>
+      More to <em class="font-normal">Explore</em>
+    </h2>
+    <div class="mt-10 grid gap-10 sm:grid-cols-2 lg:gap-14">
+      <BlogCard post={POSTS[0]} imgN={IMG.blogCard1} />
+      <BlogCard post={POSTS[1]} imgN={IMG.blogCard2} />
+    </div>
+  </section>
+
+  <!-- ============ 12. FINAL CTA SPLIT + MARQUEE ============ -->
+  <section class="relative" aria-label="Get in touch">
+    <div class="absolute inset-x-0 top-0 z-20 overflow-hidden" aria-hidden="true">
+      <Marquee
+        segments={[
+          { text: 'HOLD ONTO ' },
+          { text: 'the', italic: true },
+          { text: ' FEELING' },
+        ]}
+        repeat={3}
+        segmentCls="px-3 font-display text-[11vw] font-medium leading-none tracking-tight text-ink sm:text-7xl lg:text-[88px]"
+        slow
+      />
+    </div>
+    <div class="grid pt-[8vw] sm:pt-16 lg:grid-cols-2 lg:pt-16">
+      <div class="relative min-h-[380px] lg:min-h-[560px]">
+        <Pic n={IMG.finalCta} alt="Green ivy vines climbing a grey wall" sizes="(max-width: 1024px) 100vw, 50vw" cls="absolute inset-0 h-full w-full object-cover" />
+        <div class="absolute bottom-6 right-6 w-36 overflow-hidden border-4 border-cream sm:w-48">
+          <div class="aspect-[4/3]">
+            <Pic n={IMG.finalInset} alt="Bride and groom walking down a dirt road under a cloudy sky, black and white" sizes="200px" bw cls="h-full w-full object-cover" />
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col justify-center bg-olive px-6 py-16 text-cream sm:px-12 lg:px-16">
+        <h2 class="font-display text-5xl font-medium leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl" data-reveal>
+          LET’S TELL<br />YOUR STORY
+        </h2>
+        <p class="mt-6 max-w-md text-[15px] leading-relaxed text-cream/85" data-reveal>
+          Dates for next season are booking now. Tell me about your celebration — I cannot wait
+          to hear what you are dreaming up.
+        </p>
+        <p class="mt-8" data-reveal>
+          <a href="/contact" class="u-link u-link-serif text-xl text-cream sm:text-2xl">Inquire</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
