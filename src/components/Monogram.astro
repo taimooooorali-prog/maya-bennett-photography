@@ -1,0 +1,16 @@
+---
+/* Oval MB monogram outline. Size variants via `size` prop (sm | md | lg). */
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  cls?: string;
+}
+const { size = 'md', cls = '' } = Astro.props;
+const dims =
+  size === 'sm' ? 'h-11 w-9 text-[13px]' : size === 'lg' ? 'h-24 w-[76px] text-[26px]' : 'h-16 w-[52px] text-lg';
+---
+
+<span
+  aria-hidden="true"
+  class={`inline-flex items-center justify-center rounded-[50%] border border-current font-display font-medium leading-none ${dims} ${cls}`}
+  >MB</span
+>

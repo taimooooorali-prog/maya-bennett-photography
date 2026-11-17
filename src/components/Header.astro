@@ -1,0 +1,125 @@
+---
+import Monogram from './Monogram.astro';
+import { NAV_LEFT, NAV_RIGHT, MENU_LINKS, BRAND } from '../data/site';
+
+interface Props {
+  current?: string;
+}
+const { current = '/' } = Astro.props;
+const isCurrent = (href: string) => href === current;
+---
+
+<!-- ============ Full header (in flow, at page top) ============ -->
+<header class="relative z-40 bg-cream">
+  <div class="mx-auto grid max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center px-5 py-5 sm:px-8 lg:py-7">
+    <div>
+      <nav class="hidden items-center gap-7 xl:gap-9 lg:flex" aria-label="Primary left">
+        {
+          NAV_LEFT.map((l) => (
+            <a
+              href={l.href}
+              aria-current={isCurrent(l.href) ? 'page' : undefined}
+              class={`text-[13px] font-medium tracking-[0.14em] text-ink transition-opacity hover:opacity-60 ${isCurrent(l.href) ? 'underline underline-offset-4' : ''}`}
+            >
+              {l.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+    <a href="/" class="justify-self-center text-center" aria-label="Maya Bennett Photography — home">
+      <span class="block font-display text-[22px] font-medium leading-none tracking-[0.18em] text-ink sm:text-2xl lg:text-[28px]">MAYA BENNETT</span>
+      <span class="mt-1.5 block text-[9px] font-medium uppercase tracking-[0.42em] text-body">Photography</span>
+    </a>
+    <div class="flex items-center justify-end gap-7 xl:gap-9">
+      <nav class="hidden items-center gap-7 xl:gap-9 lg:flex" aria-label="Primary right">
+        {
+          NAV_RIGHT.map((l) => (
+            <a
+              href={l.href}
+              aria-current={isCurrent(l.href) ? 'page' : undefined}
+              class={`${l.italic ? 'u-link u-link-serif text-[17px]' : 'text-[13px] font-medium tracking-[0.14em]'} text-ink transition-opacity hover:opacity-60 ${!l.italic && isCurrent(l.href) ? 'underline underline-offset-4' : ''}`}
+            >
+              {l.label}
+            </a>
+          ))
+        }
+      </nav>
+      <button
+        type="button"
+        data-menu-open
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="menu-overlay"
+        class="group flex h-11 w-11 flex-col items-center justify-center gap-[7px]"
+      >
+        <span class="block h-[1.5px] w-7 bg-ink transition-transform group-hover:scale-x-90"></span>
+        <span class="block h-[1.5px] w-7 bg-ink transition-transform group-hover:scale-x-90"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ Slim fixed bar (appears on scroll) ============ -->
+<div id="slim-bar" data-visible="false" class="fixed inset-x-0 top-0 z-40 border-b border-hairline bg-cream/95 backdrop-blur-sm">
+  <div class="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-3 sm:px-8">
+    <a href="/" class="flex items-center gap-3 text-ink" aria-label="Maya Bennett Photography — home">
+      <Monogram size="sm" />
+      <span class="font-display text-base font-medium tracking-[0.18em]">MAYA BENNETT</span>
+    </a>
+    <button
+      type="button"
+      data-menu-open
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="menu-overlay"
+      class="flex h-11 w-11 flex-col items-center justify-center gap-[7px]"
+    >
+      <span class="block h-[1.5px] w-7 bg-ink"></span>
+      <span class="block h-[1.5px] w-7 bg-ink"></span>
+    </button>
+  </div>
+</div>
+
+<!-- ============ Full-screen menu overlay ============ -->
+<div
+  id="menu-overlay"
+  data-open="false"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu"
+  class="invisible fixed inset-0 z-50 bg-cream"
+  inert
+>
+  <div class="flex h-full flex-col">
+    <div class="flex items-center justify-between px-5 py-5 sm:px-8">
+      <a href="/" class="font-display text-xl font-medium tracking-[0.18em] text-ink" data-menu-link>MAYA BENNETT</a>
+      <button
+        type="button"
+        data-menu-close
+        aria-label="Close menu"
+        class="relative flex h-11 w-11 items-center justify-center"
+      >
+        <span class="absolute block h-[1.5px] w-7 rotate-45 bg-ink"></span>
+        <span class="absolute block h-[1.5px] w-7 -rotate-45 bg-ink"></span>
+      </button>
+    </div>
+    <nav class="flex flex-1 flex-col items-center justify-center gap-2 sm:gap-3" aria-label="Menu">
+      {
+        MENU_LINKS.map((l) => (
+          <a
+            href={l.href}
+            data-menu-link
+            class="font-display text-4xl text-ink transition-opacity hover:opacity-60 sm:text-5xl lg:text-6xl"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="flex flex-col items-center gap-1 pb-10 text-center">
+      <p class="text-xs uppercase tracking-[0.3em] text-body">{BRAND.city}</p>
+      <a href={`mailto:${BRAND.email}`} class="u-link text-sm text-ink">{BRAND.email}</a>
+    </div>
+  </div>
+</div>

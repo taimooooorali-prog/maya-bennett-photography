@@ -1,0 +1,28 @@
+---
+import { pool, srcsetFor } from '../data/images';
+
+interface Props {
+  n: number;
+  alt: string;
+  sizes?: string;
+  eager?: boolean;
+  bw?: boolean;
+  cls?: string;
+  fetchPriority?: 'high' | 'auto';
+}
+
+const { n, alt, sizes = '100vw', eager = false, bw = false, cls = '', fetchPriority } = Astro.props;
+---
+
+<img
+  src={pool(n)}
+  srcset={srcsetFor(n)}
+  sizes={sizes}
+  alt={alt}
+  width="1200"
+  height="900"
+  loading={eager ? 'eager' : 'lazy'}
+  decoding="async"
+  fetchpriority={fetchPriority}
+  class={`${bw ? 'bw ' : ''}${cls}`}
+/>

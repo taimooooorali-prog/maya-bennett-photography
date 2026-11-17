@@ -1,0 +1,68 @@
+---
+import { ArrowLeft, ArrowRight } from 'lucide-astro';
+import type { Testimonial } from '../data/site';
+
+interface Props {
+  testimonials: Testimonial[];
+  namesClickable?: boolean;
+  cls?: string;
+  id?: string;
+}
+const { testimonials, namesClickable = false, cls = '', id = 'ts' } = Astro.props;
+---
+
+<div class={`relative ${cls}`} data-carousel data-carousel-id={id}>
+  <div class="grid" aria-live="polite" aria-atomic="true">
+    {
+      testimonials.map((t, i) => (
+        <figure data-slide data-active={i === 0 ? 'true' : 'false'} class="xfade-slide col-start-1 row-start-1 px-10 text-center sm:px-16">
+          <blockquote>
+            <p class="mx-auto max-w-3xl font-display text-[26px] italic leading-snug text-ink sm:text-[32px] lg:text-4xl">
+              “{t.quote}”
+            </p>
+          </blockquote>
+          <figcaption class="mt-6">
+            <span class="eyebrow text-body">Kind words from&nbsp;</span>
+            <span class="eyebrow text-ink">{t.names.toUpperCase()}</span>
+            {t.detail && <span class="mt-1 block text-xs uppercase tracking-[0.2em] text-body">{t.detail}</span>}
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+
+  <div class="mt-8 flex items-center justify-center gap-6">
+    <button
+      type="button"
+      data-carousel-prev
+      aria-label="Previous testimonial"
+      class="flex h-11 w-11 items-center justify-center text-ink transition-opacity hover:opacity-60"
+    >
+      <ArrowLeft size={22} aria-hidden="true" />
+    </button>
+    {
+      namesClickable && (
+        <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-1" role="group" aria-label="Choose a testimonial">
+          {testimonials.map((t, i) => (
+            <button
+              type="button"
+              data-carousel-goto={i}
+              aria-label={`Show testimonial from ${t.names}`}
+              class={`font-display text-lg italic transition-opacity ${i === 0 ? 'text-ink underline underline-offset-4' : 'text-body hover:text-ink'}`}
+            >
+              {t.names}
+            </button>
+          ))}
+        </div>
+      )
+    }
+    <button
+      type="button"
+      data-carousel-next
+      aria-label="Next testimonial"
+      class="flex h-11 w-11 items-center justify-center text-ink transition-opacity hover:opacity-60"
+    >
+      <ArrowRight size={22} aria-hidden="true" />
+    </button>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+---
+/* Seamless marquee: the segment row is rendered twice (second copy aria-hidden).
+   Each half repeats the segments `repeat` times so the loop is seamless. */
+interface Segment {
+  text: string;
+  italic?: boolean;
+  href?: string;
+}
+interface Props {
+  segments: Segment[];
+  separator?: string;
+  repeat?: number;
+  cls?: string;
+  segmentCls?: string;
+  sepCls?: string;
+  slow?: boolean;
+  label?: string;
+}
+const { segments, separator = '', repeat = 3, cls = '', segmentCls = '', sepCls = '', slow = false, label } = Astro.props;
+const half = Array.from({ length: repeat }, () => segments).flat();
+---
+
+<div class={`overflow-hidden ${cls}`} {...(label ? { 'aria-label': label } : {})}>
+  <div class={`marquee-track ${slow ? 'marquee-track--slow' : ''}`}>
+    {
+      [false, true].map((hidden) => (
+        <div class="flex shrink-0 items-center" aria-hidden={hidden || undefined}>
+          {half.map((s, i) => (
+            <span class="flex shrink-0 items-center">
+              {s.href ? (
+                <a href={s.href} tabindex={hidden ? -1 : undefined} class={`whitespace-nowrap ${s.italic ? 'font-display italic' : ''} ${segmentCls}`}>
+                  {s.text}
+                </a>
+              ) : (
+                <span class={`whitespace-nowrap ${s.italic ? 'font-display italic' : ''} ${segmentCls}`}>{s.text}</span>
+              )}
+              {separator && i < half.length - 1 && <span class={`shrink-0 ${sepCls}`}>{separator}</span>}
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>

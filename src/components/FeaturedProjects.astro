@@ -1,0 +1,73 @@
+---
+import { STORIES } from '../data/site';
+import { IMG, pool, pool480 } from '../data/images';
+
+const first = STORIES[0];
+---
+
+<div class="grid items-start gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16" data-featured>
+  <!-- Index rows -->
+  <div>
+    <div class="flex items-baseline gap-4" data-reveal>
+      <span class="font-display text-xl italic text-body">featured</span>
+      <h2 class="font-display text-5xl font-medium leading-[0.95] tracking-tight text-ink sm:text-6xl lg:text-7xl">PROJECTS</h2>
+    </div>
+    <ul class="mt-10">
+      {
+        STORIES.map((s, i) => (
+          <li class="border-t border-hairline last:border-b">
+            <a
+              href={`/${s.slug}`}
+              data-fp-row={i}
+              data-fp-img={pool(IMG.featured[i])}
+              data-fp-img480={pool480(IMG.featured[i])}
+              data-fp-alt={`${s.couple} at ${s.venue}`}
+              class="group flex items-baseline justify-between gap-4 py-5 transition-colors"
+              aria-label={`${s.couple}, ${s.venue} — view the full story`}
+            >
+              <span>
+                <span data-fp-name class={`block font-display text-[26px] leading-tight sm:text-3xl ${i === 0 ? 'text-ink' : 'text-body group-hover:text-ink group-focus-visible:text-ink'}`}>
+                  {s.couple}
+                </span>
+                <span class="mt-1 block text-[11px] uppercase tracking-[0.24em] text-body">{s.venue}</span>
+              </span>
+              <span data-fp-view class={`shrink-0 text-[13px] font-medium uppercase tracking-[0.18em] ${i === 0 ? 'text-ink underline underline-offset-4' : 'text-body group-hover:text-ink group-hover:underline group-hover:underline-offset-4'}`}>
+                View More
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <!-- Preview photo -->
+  <div class="relative aspect-[4/5] overflow-hidden bg-panel lg:sticky lg:top-28" data-reveal>
+    <img
+      data-fp-img-a
+      src={pool(IMG.featured[0])}
+      srcset={`${pool480(IMG.featured[0])} 480w, ${pool(IMG.featured[0])} 1200w`}
+      sizes="(max-width: 1024px) 90vw, 50vw"
+      alt={`${first.couple} at ${first.venue}`}
+      width="1200"
+      height="900"
+      loading="lazy"
+      decoding="async"
+      class="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
+    />
+    <img
+      data-fp-img-b
+      src={pool(IMG.featured[0])}
+      alt=""
+      aria-hidden="true"
+      width="1200"
+      height="900"
+      loading="lazy"
+      decoding="async"
+      class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500"
+    />
+    <p data-fp-caption class="absolute bottom-0 left-0 bg-cream/90 px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-ink">
+      {first.couple} — {first.venue}
+    </p>
+  </div>
+</div>

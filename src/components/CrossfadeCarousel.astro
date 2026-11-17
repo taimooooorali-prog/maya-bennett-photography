@@ -1,0 +1,47 @@
+---
+import { ArrowLeft, ArrowRight } from 'lucide-astro';
+import Pic from './Pic.astro';
+
+interface Slide {
+  n: number;
+  alt: string;
+}
+interface Props {
+  slides: Slide[];
+  sizes?: string;
+  cls?: string;
+  imgCls?: string;
+  id?: string;
+}
+const { slides, sizes = '50vw', cls = '', imgCls = '', id = 'xf' } = Astro.props;
+---
+
+<div class={`relative ${cls}`} data-carousel data-carousel-id={id}>
+  <div class="relative h-full w-full overflow-hidden">
+    {
+      slides.map((s, i) => (
+        <div data-slide data-active={i === 0 ? 'true' : 'false'} class="xfade-slide absolute inset-0">
+          <Pic n={s.n} alt={s.alt} sizes={sizes} cls={`h-full w-full object-cover ${imgCls}`} />
+        </div>
+      ))
+    }
+  </div>
+  <div class="absolute bottom-4 right-4 flex gap-2">
+    <button
+      type="button"
+      data-carousel-prev
+      aria-label="Previous photo"
+      class="flex h-10 w-10 items-center justify-center bg-cream/90 text-ink transition-opacity hover:opacity-70"
+    >
+      <ArrowLeft size={18} aria-hidden="true" />
+    </button>
+    <button
+      type="button"
+      data-carousel-next
+      aria-label="Next photo"
+      class="flex h-10 w-10 items-center justify-center bg-cream/90 text-ink transition-opacity hover:opacity-70"
+    >
+      <ArrowRight size={18} aria-hidden="true" />
+    </button>
+  </div>
+</div>
