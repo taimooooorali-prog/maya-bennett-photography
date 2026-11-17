@@ -85,7 +85,7 @@ if (!prefersReducedMotion) {
   if (scrubLines.length) {
     gsap.fromTo(
       scrubLines,
-      { color: '#CFCFC4' },
+      { color: '#8a867c' },
       {
         color: '#141414',
         stagger: 0.2,
