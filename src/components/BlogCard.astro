@@ -23,7 +23,7 @@ const { post, imgN, categoryLabel = true } = Astro.props;
     </h3>
     <p class="mt-2 text-[15px] leading-relaxed text-body">{post.excerpt}</p>
     <p class="mt-4">
-      <a href={`/journal/${post.slug}`} class="u-link text-[13px] font-medium uppercase tracking-[0.2em] text-ink">Read More</a>
+      <a href={`/journal/${post.slug}`} class="u-link text-[13px] font-medium uppercase tracking-[0.2em] text-ink">Read More<span class="sr-only">: {post.title}</span></a>
     </p>
   </div>
 </article>
