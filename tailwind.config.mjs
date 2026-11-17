@@ -11,9 +11,9 @@ export default {
         black: '#111111',
         editorial: '#EFE7CE',
         ink: '#141414',
-        body: '#6E6E68',
+        body: '#5F5B52',
         hairline: '#D8D5C8',
-        stone2: '#B8B4A6',
+        stone2: '#6E6E68',
       },
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],
